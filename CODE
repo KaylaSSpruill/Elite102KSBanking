@@ -1,0 +1,94 @@
+import mysql.connector
+
+
+
+# intro to code
+KSLogo = "KS Banking"
+print (KSLogo)
+def welcomeusermenu():
+    print("Welcome to KS Banking, where we meet you banking needs")
+    print(KSLogo) 
+
+#askes user if they would like to login or if they are a new user
+def loginOrNewUser(): 
+    print(KSLogo)
+    loginOrNewuserInput = input("Loging in or New User, Type logingin or newuser") 
+    if loginOrNewuserInput == "loginin":
+        print(KSLogo)
+        return KSBankaccount
+        #Promt user to add login info
+        #use info from database
+    elif loginOrNewuserInput ==  "newuser":
+        print(KSLogo)
+        return newloginUserinfo
+        # new function that ask user to enter info
+    else: # if you user does not enter in the correct keywords it return the funtion 
+        print(KSLogo)
+        print("Please enter loginin or newuser")
+        return loginOrNewuserInput
+       
+  
+def newloginUserinfo():
+    print(KSLogo)
+    newUserName = input("Please enter a username only using only letters please and thank you\n")
+    newPassWord = input("Please enter a password only using letters plase and thank you\n")
+    newpinnum = input("Create your own four pin digit" )
+    connection = mysql.connector.connect(userName ='username', 
+                                       passWord = 'password', 
+                                       pinNum = 'pinnum', 
+                                       balance = 'balance' )
+
+    addData = ("INSERT INTO ksbankingusers (username, password, pinnum, balance) VALUES (userName, passWord, PinNum, blance)")
+
+    connection.commit()
+    cursor.close()
+
+    #should able to add new user info to mySQL
+    #next propnt user to the KSBankaccount class
+
+
+class KSBankaccount:
+    userName = input("Please enter you username: \n")
+    passWord = input("Please enter your password: \n") 
+
+    connection =mysql.connector.connect(userName = 'username', 
+                                     passWord = 'password', 
+                                     pinNum = 'pinnum',
+                                     balance = 'balance')
+    print (connection)
+
+    cursor = connection.cursor()
+    testQuery = ("SELECT * FROM ksbankingusers")
+    cursor.execute(testQuery)
+
+    for username in cursor:
+        print(username)
+
+    cursor.close()
+    connection.close()
+
+    def __init__(self): #Welcome user to their banking info and also starts them at $0
+        self.balance=0
+        print(KSLogo)
+        print("Welcome back" + userName )
+ 
+    def deposit(self): #Allows User to deposit money into their accounts
+        print(KSLogo)
+        amountMoney = float(input("Please the enter amount to be Deposited into your acount: \n"))
+        self.balance += amountMoney
+        print(" Amount Deposited:",amountMoney)
+ 
+    def withdraw(self):  #Allows User to withdraw money from their accounts
+        print(KSLogo)
+        amountMoney = float(input("Enter amount to be Withdrawn: "))
+        if self.balance>=amountMoney:
+            self.balance-=amountMoney
+            print("You Withdrew:", amountMoney)
+        else:
+            print("Insufficient balance")
+ 
+    def displayBalance(self): #Alows user to check their acounts balance 
+        print(KSLogo)
+        print("Your Available Balance:",self.balance)
+        print("Thank you for Banking with" KSLogo )
+
